@@ -31,6 +31,13 @@ function toMoney(value: number) {
   return `R$ ${value.toFixed(2)}`;
 }
 
+function toStatusLabel(status: string) {
+  if (status === "pending") return "Pendente";
+  if (status === "paid") return "Pago";
+  if (status === "cancelled") return "Cancelado";
+  return status;
+}
+
 export default function MeusPedidos() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [library, setLibrary] = useState<LibraryItem[]>([]);
@@ -79,7 +86,7 @@ export default function MeusPedidos() {
                 {orders.map((order) => (
                   <li key={order.id} className="rounded-lg bg-gray-800 p-3">
                     <p className="font-semibold">{order.orderNumber}</p>
-                    <p className="text-sm text-gray-300">Status: {order.status}</p>
+                    <p className="text-sm text-gray-300">Status: {toStatusLabel(order.status)}</p>
                     <p className="text-sm text-gray-300">Total: {toMoney(Number(order.totalAmount ?? 0))}</p>
                     <ul className="mt-2 space-y-1 text-sm text-gray-300">
                       {(order.items ?? []).map((item) => (
